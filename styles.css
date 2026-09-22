@@ -1,0 +1,57 @@
+body {
+  background-color: #d8d4f2;
+  --border-radius: 15px;
+}
+
+.container {
+  background-color: #c4b2bc;
+  padding: 20px;
+  border-radius: var(--border-radius);
+}
+
+.library {
+  background-color: #a29587;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  border-radius: var(--border-radius);
+}
+
+.book {
+  background-color: #846c5b;
+  padding: 20px;
+  background-color: #d8d4f2;
+  color: #332e3c;
+  display: grid;
+  gap: 10px;
+  align-items: center;
+  border-radius: var(--border-radius);
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1.5em;
+  grid-column: 1 / span 2;
+}
+
+.author {
+  grid-column: 1 / span 2;
+  margin-bottom: 20px;
+}
+
+.read {
+  grid-column: 2;
+  justify-self: end;
+  padding: 5px 10px;
+  color: #332e3c;
+  border-radius: var(--border-radius);
+}
+
+.completed {
+  background-color: #a29587;
+}
+
+.not-completed {
+  background-color: #c4b2bc;
+}
