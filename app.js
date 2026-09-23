@@ -97,7 +97,6 @@ function addBookToPage(book) {
 
 function setupLibrary() {
   libraryElement.replaceChildren();
-  containerElement.appendChild(libraryElement);
 
   for (let book of myLibrary) {
     addBookToPage(book);
@@ -130,11 +129,10 @@ form.addEventListener("submit", () => {
 });
 
 closeButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  form.reset();
-
   dialogElement.close();
 });
+
+dialogElement.addEventListener("close", () => form.reset());
 
 const editSubmitButton = document.querySelector(".edit-submit");
 
