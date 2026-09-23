@@ -26,9 +26,10 @@ addBookToLibrary(new Book("The Hobbit", "J.R.R. Tolkien", 270, "completed"));
 const containerElement = document.querySelector(".container");
 let libraryElement = document.querySelector(".library");
 
+const editDialog = document.querySelector("#edit-dialog");
+
 function addBookToPage(book) {
   const bookElement = document.createElement("div");
-
   const titleElement = document.createElement("div");
   const authorElement = document.createElement("div");
   const pagesElement = document.createElement("div");
@@ -47,22 +48,17 @@ function addBookToPage(book) {
 
   removeButton.classList.add("remove-button");
   removeButton.setAttribute("data-book-id", book.id);
+  removeButton.ariaLabel = "Remove Book";
 
   editButton.classList.add("edit-button");
   editButton.setAttribute("data-book-id", book.id);
+  editButton.ariaLabel = "Edit Read Status";
 
   removeButton.addEventListener("click", () => {
-    let result_index = myLibrary.reduce((result_index, book, index) => {
-      if (removeButton.dataset.bookId === book.id) {
-        result_index = index;
-      }
-    });
-
-    myLibrary.splice(result_index, 1);
+    const index = myLibrary.findIndex((b) => b.id === book.id);
+    if (index !== -1) myLibrary.splice(index, 1);
     bookElement.remove();
   });
-
-  const editDialog = document.querySelector("#edit-dialog");
 
   editButton.addEventListener("click", () => {
     edit_book_id = editButton.dataset.bookId;
@@ -81,7 +77,7 @@ function addBookToPage(book) {
     readElement.classList.add("not-completed");
   }
 
-  buttonsContainer = document.createElement("div");
+  const buttonsContainer = document.createElement("div");
   buttonsContainer.classList.add("buttons-container");
 
   buttonsContainer.append(editButton, removeButton);
@@ -95,11 +91,14 @@ function addBookToPage(book) {
   );
 
   libraryElement.appendChild(bookElement);
-
-  book.bookElement = bookElement;
 }
 
 function setupLibrary() {
+  libraryElement.remove();
+  libraryElement = document.createElement("div");
+  libraryElement.classList.add("library");
+  containerElement.appendChild(libraryElement);
+
   for (let book of myLibrary) {
     addBookToPage(book);
   }
@@ -118,27 +117,7 @@ const pagesField = document.querySelector("#pages");
 const form = document.forms[0];
 const radios = form.elements["read"];
 
-formSubmitButton.addEventListener("click", (e) => {
-  if (
-    !(
-      titleField.checkValidity() &&
-      authorField.checkValidity() &&
-      pagesField.checkValidity()
-    )
-  ) {
-    return;
-  }
-
-  if (!Number.isInteger(Number(pagesField.value)) || pagesField.value < 0) {
-    const errorText = document.createElement("div");
-    errorText.classList.add("error");
-    errorText.textContent = "Pages must be a Positive Integer";
-    pagesField.parentElement.appendChild(errorText);
-    return;
-  }
-
-  e.preventDefault();
-
+form.addEventListener("submit", () => {
   const book = new Book(
     titleField.value,
     authorField.value,
@@ -147,9 +126,7 @@ formSubmitButton.addEventListener("click", (e) => {
   );
 
   addBookToLibrary(book);
-  addBookToPage(book);
-
-  dialogElement.close();
+  setupLibrary();
   form.reset();
 });
 
@@ -160,33 +137,17 @@ closeButton1.addEventListener("click", (e) => {
   dialogElement.close();
 });
 
-const editDialog = document.querySelector("#edit-dialog");
 const editDropdown = document.querySelector("#select-status");
 const editSubmitButton = document.querySelector(".edit-submit");
 
 editSubmitButton.addEventListener("click", () => {
-  let status = editDropdown.value;
-
   let result_index = myLibrary.findIndex(
     (_, index) => myLibrary[index].id === edit_book_id,
   );
 
-  const statusElement =
-    myLibrary[result_index].bookElement.querySelector(".read");
+  myLibrary[result_index].editStatus(editDropdown.value);
 
-  if (editDropdown.value === "completed") {
-    myLibrary[result_index].editStatus("Completed");
-    statusElement.textContent = "Completed";
-
-    statusElement.classList.remove("not-completed");
-    statusElement.classList.add("completed");
-  } else {
-    myLibrary[result_index].editStatus("Not Read");
-    statusElement.textContent = "Not Read";
-
-    statusElement.classList.add("not-completed");
-    statusElement.classList.remove("completed");
-  }
+  setupLibrary();
 });
 
 const closeButton2 = document.querySelector("#edit-dialog .close");
