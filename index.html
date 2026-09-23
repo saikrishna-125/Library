@@ -31,7 +31,7 @@
 
     <dialog id="book-dialog">
       <div class="dialog-container">
-        <button class="close">x</button>
+        <button class="close" aria-label="close">x</button>
         <form method="dialog" action="">
           <div class="form-title">Add Book</div>
           <div class="form-container">
@@ -45,7 +45,14 @@
             </div>
             <div class="input-element">
               <label for="pages">Book Length*:</label>
-              <input type="number" id="pages" required name="pages" min="1" step="1" />
+              <input
+                type="number"
+                id="pages"
+                required
+                name="pages"
+                min="1"
+                step="1"
+              />
             </div>
             <fieldset>
               <legend>Read?*</legend>
@@ -79,7 +86,14 @@
 
     <dialog id="edit-dialog">
       <div class="dialog-container">
-        <button class="close" commandfor="bookDialog" command="close">x</button>
+        <button
+          class="close"
+          commandfor="edit-dialog"
+          command="close"
+          aria-label="close"
+        >
+          x
+        </button>
         <div class="form-title">Edit Status</div>
         <form method="dialog" action="">
           <div class="edit-form-container">

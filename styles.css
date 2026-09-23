@@ -161,14 +161,8 @@ input[type="number"] {
   grid-template-columns: repeat(auto-fit, 250px);
 }
 
-dialog > button {
-  box-shadow: none;
-  margin-top: 10px;
-}
-
 .remove-button,
 .edit-button {
-  grid-column: 1 / span 2;
   margin-top: 10px;
   font-size: 1em;
   padding: 0;
@@ -182,11 +176,6 @@ dialog > button {
 .remove-button svg,
 .edit-button svg {
   fill: #332e56;
-}
-
-.error {
-  color: red;
-  font-size: 0.8em;
 }
 
 .close {
