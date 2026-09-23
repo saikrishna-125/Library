@@ -75,7 +75,8 @@ body {
 }
 
 .book-submit,
-.dialog-button {
+.dialog-button,
+.edit-submit {
   padding: 10px 20px;
   border-radius: 15px;
   border: none;
@@ -161,12 +162,13 @@ input[type="number"] {
   grid-template-columns: repeat(auto-fit, 250px);
 }
 
-dialog button {
+dialog > button {
   box-shadow: none;
   margin-top: 10px;
 }
 
-.remove-button {
+.remove-button,
+.edit-button {
   grid-column: 1 / span 2;
   margin-top: 10px;
   font-size: 1em;
@@ -178,7 +180,8 @@ dialog button {
   border: none;
 }
 
-.remove-button svg {
+.remove-button svg,
+.edit-button svg {
   fill: #332e56;
 }
 
@@ -196,4 +199,33 @@ dialog button {
   border: none;
 
   justify-self: end;
+}
+
+.buttons-container {
+  grid-column: 1 / span 2;
+  display: grid;
+  grid-template-columns: 40px 40px;
+  justify-self: end;
+  margin-top: 10px;
+
+  gap: 10px;
+}
+
+.edit-button {
+  grid-column: 1;
+}
+
+.remove-button {
+  grid-column: 2;
+}
+
+.edit-form-container {
+  display: grid;
+  gap: 20px;
+}
+
+select {
+  border: 2px solid #332e56;
+  padding: 8px 5px;
+  border-radius: 10px;
 }

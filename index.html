@@ -19,7 +19,7 @@
     <div class="container">
       <div class="addBook">
         <button
-          commandfor="bookDialog"
+          commandfor="book-dialog"
           command="show-modal"
           class="dialog-button"
         >
@@ -29,15 +29,15 @@
       <div class="library"></div>
     </div>
 
-    <dialog id="bookDialog">
+    <dialog id="book-dialog">
       <div class="dialog-container">
-        <button class="close" commandfor="bookDialog" command="close">x</button>
+        <button class="close">x</button>
         <form method="dialog" action="">
           <div class="form-title">Add Book</div>
           <div class="form-container">
             <div class="input-element">
               <label for="title">Title*:</label>
-              <input type="text" id="title" required name="title" />
+              <input type="text" id="title" name="title" required />
             </div>
             <div class="input-element">
               <label for="author">Author*:</label>
@@ -71,7 +71,24 @@
                 </div>
               </div>
             </fieldset>
-            <button class="book-submit">Submit</button>
+            <button type="submit" class="book-submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog id="edit-dialog">
+      <div class="dialog-container">
+        <button class="close" commandfor="bookDialog" command="close">x</button>
+        <div class="form-title">Edit Status</div>
+        <form method="dialog" action="">
+          <div class="edit-form-container">
+            <label for="select-status">Select Read Status</label>
+            <select id="select-status" name="read-status">
+              <option value="completed">Completed</option>
+              <option value="not-completed">Not Completed</option>
+            </select>
+            <button class="edit-submit">Submit</button>
           </div>
         </form>
       </div>

@@ -8,9 +8,15 @@ function Book(title, author, pages, read) {
   this.read = read;
 }
 
+Book.prototype.editStatus = function (status) {
+  this.read = status;
+};
+
 function addBookToLibrary(book) {
   myLibrary.push(book);
 }
+
+let edit_book_id = "";
 
 addBookToLibrary(
   new Book("Lord of the Rings", "J.R.R. Tolkien", 500, "completed"),
@@ -28,8 +34,10 @@ function addBookToPage(book) {
   const pagesElement = document.createElement("div");
   const readElement = document.createElement("div");
   const removeButton = document.createElement("button");
+  const editButton = document.createElement("button");
 
   removeButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>`;
+  editButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>`;
 
   bookElement.classList.add("book");
   titleElement.classList.add("title");
@@ -40,6 +48,9 @@ function addBookToPage(book) {
   removeButton.classList.add("remove-button");
   removeButton.setAttribute("data-book-id", book.id);
 
+  editButton.classList.add("edit-button");
+  editButton.setAttribute("data-book-id", book.id);
+
   removeButton.addEventListener("click", () => {
     let result_index = myLibrary.reduce((result_index, book, index) => {
       if (removeButton.dataset.bookId === book.id) {
@@ -49,6 +60,13 @@ function addBookToPage(book) {
 
     myLibrary.splice(result_index, 1);
     bookElement.remove();
+  });
+
+  const editDialog = document.querySelector("#edit-dialog");
+
+  editButton.addEventListener("click", () => {
+    edit_book_id = editButton.dataset.bookId;
+    editDialog.showModal();
   });
 
   titleElement.textContent = book.title;
@@ -63,15 +81,22 @@ function addBookToPage(book) {
     readElement.classList.add("not-completed");
   }
 
+  buttonsContainer = document.createElement("div");
+  buttonsContainer.classList.add("buttons-container");
+
+  buttonsContainer.append(editButton, removeButton);
+
   bookElement.append(
     titleElement,
     authorElement,
     pagesElement,
     readElement,
-    removeButton,
+    buttonsContainer,
   );
 
   libraryElement.appendChild(bookElement);
+
+  book.bookElement = bookElement;
 }
 
 function setupLibrary() {
@@ -82,10 +107,9 @@ function setupLibrary() {
 
 setupLibrary();
 
-const dialogElement = document.querySelector("dialog");
-
+const dialogElement = document.querySelector("#book-dialog");
 const formSubmitButton = document.querySelector(".book-submit");
-const closeButton = document.querySelector(".close");
+const closeButton1 = document.querySelector("#book-dialog .close");
 
 const titleField = document.querySelector("#title");
 const authorField = document.querySelector("#author");
@@ -95,7 +119,15 @@ const form = document.forms[0];
 const radios = form.elements["read"];
 
 formSubmitButton.addEventListener("click", (e) => {
-  e.preventDefault();
+  if (
+    !(
+      titleField.checkValidity() &&
+      authorField.checkValidity() &&
+      pagesField.checkValidity()
+    )
+  ) {
+    return;
+  }
 
   if (!Number.isInteger(Number(pagesField.value)) || pagesField.value < 0) {
     const errorText = document.createElement("div");
@@ -104,6 +136,8 @@ formSubmitButton.addEventListener("click", (e) => {
     pagesField.parentElement.appendChild(errorText);
     return;
   }
+
+  e.preventDefault();
 
   const book = new Book(
     titleField.value,
@@ -119,9 +153,44 @@ formSubmitButton.addEventListener("click", (e) => {
   form.reset();
 });
 
-closeButton.addEventListener("click", (e) => {
+closeButton1.addEventListener("click", (e) => {
   e.preventDefault();
   form.reset();
 
   dialogElement.close();
+});
+
+const editDialog = document.querySelector("#edit-dialog");
+const editDropdown = document.querySelector("#select-status");
+const editSubmitButton = document.querySelector(".edit-submit");
+
+editSubmitButton.addEventListener("click", () => {
+  let status = editDropdown.value;
+
+  let result_index = myLibrary.findIndex(
+    (_, index) => myLibrary[index].id === edit_book_id,
+  );
+
+  const statusElement =
+    myLibrary[result_index].bookElement.querySelector(".read");
+
+  if (editDropdown.value === "completed") {
+    myLibrary[result_index].editStatus("Completed");
+    statusElement.textContent = "Completed";
+
+    statusElement.classList.remove("not-completed");
+    statusElement.classList.add("completed");
+  } else {
+    myLibrary[result_index].editStatus("Not Read");
+    statusElement.textContent = "Not Read";
+
+    statusElement.classList.add("not-completed");
+    statusElement.classList.remove("completed");
+  }
+});
+
+const closeButton2 = document.querySelector("#edit-dialog .close");
+
+closeButton2.addEventListener("click", (e) => {
+  editDialog.close();
 });
