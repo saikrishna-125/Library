@@ -1,21 +1,27 @@
 body {
   background-color: #d8d4f2;
+  font-family: "Roboto", sans-serif;
+
   --border-radius: 15px;
+  --box-shadow: 2px 1px 2px 2px rgb(0, 0, 0, 0.3);
 }
 
 .container {
-  background-color: #c4b2bc;
   padding: 20px;
-  border-radius: var(--border-radius);
+  display: grid;
+
+  margin: 30px;
+  gap: 30px;
 }
 
 .library {
   background-color: #a29587;
   padding: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
   border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
 }
 
 .book {
@@ -27,6 +33,7 @@ body {
   gap: 10px;
   align-items: center;
   border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
 }
 
 .title {
@@ -38,6 +45,12 @@ body {
 .author {
   grid-column: 1 / span 2;
   margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.author::before {
+  content: "by ";
+  font-weight: normal;
 }
 
 .read {
@@ -54,4 +67,133 @@ body {
 
 .not-completed {
   background-color: #c4b2bc;
+}
+
+.addBook {
+  display: grid;
+  justify-content: center;
+}
+
+.book-submit,
+.dialog-button {
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: none;
+  background-color: #332e56;
+  color: #d8d4f2;
+  box-shadow: var(--box-shadow);
+
+  font-weight: bold;
+  font-size: 1.25em;
+}
+
+dialog {
+  border: 4px solid #332e56;
+  background-color: #d8d4f2;
+
+  border-radius: 15px;
+}
+
+.dialog-container {
+  display: grid;
+}
+
+form {
+  display: grid;
+  padding: 20px;
+}
+
+.form-title {
+  justify-self: center;
+  font-size: 1.5rem;
+  color: #332e56;
+  font-weight: bold;
+
+  margin-bottom: 20px;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+label,
+legend {
+  font-size: 1.25rem;
+  color: #332e3c;
+}
+
+.input-element {
+  display: grid;
+  gap: 5px;
+}
+
+.input-element,
+fieldset {
+  margin: 10px 10px;
+}
+
+.radio-element {
+  margin: 10px;
+  display: grid;
+  gap: 10px;
+}
+
+input[type="radio"] + label {
+  font-size: 1.15em;
+}
+
+dialog::backdrop {
+  background-color: #332e3c;
+  opacity: 0.8;
+}
+
+input[type="text"],
+input[type="number"] {
+  border: 2px solid #332e56;
+  padding: 8px 5px;
+  border-radius: 5px;
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 250px);
+}
+
+dialog button {
+  box-shadow: none;
+  margin-top: 10px;
+}
+
+.remove-button {
+  grid-column: 1 / span 2;
+  margin-top: 10px;
+  font-size: 1em;
+  padding: 0;
+  border-radius: 5px;
+  box-shadow: none;
+  justify-self: end;
+  background: none;
+  border: none;
+}
+
+.remove-button svg {
+  fill: #332e56;
+}
+
+.error {
+  color: red;
+  font-size: 0.8em;
+}
+
+.close {
+  color: #332e3c;
+  padding: 0;
+  margin: 0;
+  font-size: 1.5em;
+  background: none;
+  border: none;
+
+  justify-self: end;
 }

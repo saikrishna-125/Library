@@ -7,10 +7,74 @@
 
     <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="container">
+      <div class="addBook">
+        <button
+          commandfor="bookDialog"
+          command="show-modal"
+          class="dialog-button"
+        >
+          Add Book
+        </button>
+      </div>
       <div class="library"></div>
     </div>
+
+    <dialog id="bookDialog">
+      <div class="dialog-container">
+        <button class="close" commandfor="bookDialog" command="close">x</button>
+        <form method="dialog" action="">
+          <div class="form-title">Add Book</div>
+          <div class="form-container">
+            <div class="input-element">
+              <label for="title">Title*:</label>
+              <input type="text" id="title" required name="title" />
+            </div>
+            <div class="input-element">
+              <label for="author">Author*:</label>
+              <input type="text" id="author" required ame="author" />
+            </div>
+            <div class="input-element">
+              <label for="pages">Book Length*:</label>
+              <input type="number" id="pages" required name="pages" />
+            </div>
+            <fieldset>
+              <legend>Read?*</legend>
+              <div class="radio-element">
+                <div class="radio-field">
+                  <input
+                    type="radio"
+                    id="completed"
+                    name="read"
+                    value="completed"
+                  />
+                  <label for="completed">Completed</label>
+                </div>
+                <div class="radio-field">
+                  <input
+                    type="radio"
+                    id="not-completed"
+                    name="read"
+                    value="not-completed"
+                    required
+                  />
+                  <label for="not-completed">Not Completed</label>
+                </div>
+              </div>
+            </fieldset>
+            <button class="book-submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
   </body>
 </html>
